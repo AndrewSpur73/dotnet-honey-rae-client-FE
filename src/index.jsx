@@ -8,6 +8,12 @@ import ServiceTickets from "./components/tickets/ServiceTickets";
 import TicketsList from "./components/tickets/TicketsList";
 import TicketDetails from "./components/tickets/TicketDetails";
 import CreateTicket from "./components/tickets/CreateTicket";
+import Employees from "./components/employees/Employees";
+import EmployeesList from "./components/employees/EmployeesList";
+import EmployeeDetails from "./components/employees/EmployeeDetails";
+import Customers from "./components/customers/Customers";
+import CustomerList from "./components/customers/CustomerList";
+import CustomerDetails from "./components/customers/CustomerDetails";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -19,6 +25,14 @@ root.render(
           <Route path=":id" element={<TicketDetails />} />
           <Route path="create" element={<CreateTicket />} />
         </Route>
+          <Route path="employees" element={<Employees />} >
+            <Route index element={<EmployeesList />} />
+            <Route path=":id" element={<EmployeeDetails />} />
+          </Route>
+          <Route path="customers" element={<Customers />} >
+            <Route index element={<CustomerList />} />
+            <Route path=":id" element={<CustomerDetails />} />
+          </Route>
       </Route>
     </Routes>
   </BrowserRouter>,
