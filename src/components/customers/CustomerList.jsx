@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Table } from "reactstrap";
 import { Link } from "react-router-dom";
 import { getCustomers } from "../../data/customerData";
+import { deleteServiceTicket } from "../../data/serviceTicketsData";
 
 export default function CustomerList() {
   const [customers, setCustomers] = useState([]);
