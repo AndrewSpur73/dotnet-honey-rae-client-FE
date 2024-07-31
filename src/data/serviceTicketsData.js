@@ -66,3 +66,67 @@ export const deleteServiceTicket = async (id) => {
     throw error;
   }
 };
+
+export const completeServiceTicket = async (id) => {
+  const apiUrlWithId = `${_apiUrl}/${id}/complete`;
+
+  try {
+    const response = await fetch(apiUrlWithId, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("Response:", response);
+
+    if (!response.ok) {
+      throw new Error("Error completing service ticket");
+    }
+
+    console.log("Service ticket marked as complete successfully");
+  } catch (error) {
+    console.error("Error completing service ticket:", error);
+    throw error;
+  }
+};
+
+export const assignEmployeeToTicket = async (ticketId, employeeId) => {
+  const apiUrlWithId = `${_apiUrl}/${ticketId}/assign`;
+
+  try {
+    const response = await fetch(apiUrlWithId, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ employeeId: employeeId }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Error assigning employee to ticket");
+    }
+
+    console.log("Employee assigned to ticket successfully");
+  } catch (error) {
+    console.error("Error assigning employee to ticket:", error);
+    throw error;
+  }
+};
+
+export const getAvailableEmployees = async () => {
+  try {
+    const response = await fetch(_employeesUrl);
+
+    if (!response.ok) {
+      throw new Error("Error fetching employee data");
+    }
+
+    const allEmployees = await response.json();
+
+    return allEmployees;
+  } catch (error) {
+    console.error("Error in getAvailableEmployees:", error);
+    throw error;
+  }
+};

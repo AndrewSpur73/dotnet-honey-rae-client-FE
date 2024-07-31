@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Table } from "reactstrap";
-import { deleteServiceTicket, getServiceTickets } from "../../data/serviceTicketsData";
+import { completeServiceTicket, deleteServiceTicket, getServiceTickets } from "../../data/serviceTicketsData";
 import { Link } from "react-router-dom";
 
 export default function TicketsList() {
@@ -24,6 +24,28 @@ export default function TicketsList() {
         console.error("Error deleting service ticket:", error);
       });
   }
+
+  const handleComplete = (id) => {
+    const isConfirmed = window.confirm("Are you sure you want to mark this service ticket as complete?");
+    if (!isConfirmed) {
+      return;
+    }
+  
+    completeServiceTicket(id)
+      .then(() => {
+        setTickets((prevTickets) =>
+          prevTickets.map((ticket) =>
+            ticket.id === id ? { ...ticket, completed: true } : ticket
+          )
+        );
+        window.location.reload();
+        navigate("/servicetickets/");
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error completing service ticket:", error);
+      });
+  };
 
   return (
     <Table>
@@ -49,6 +71,11 @@ export default function TicketsList() {
               <Button color="danger" id="delete" onClick={() => handleDelete(t.id)}>
                 Delete
               </Button>
+              {t.dateCompleted === null && (
+                <Button color="success" id="complete" onClick={() => handleComplete(t.id)}>
+                  Mark Complete
+                </Button>
+              )}
             </td>
           </tr>
         ))}
